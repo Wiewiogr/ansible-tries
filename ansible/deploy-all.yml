@@ -1,0 +1,5 @@
+---
+- import_playbook: docker-registry/docker-registry.yml
+- import_playbook: influxdb/influxdb.yml
+- import_playbook: grafana/grafana.yml
+- import_playbook: cassandra/cassandra.yml

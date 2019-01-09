@@ -1,0 +1,22 @@
+---
+- name: Create Grafana data directory
+  file: path=/root/grafana state=directory
+
+- name: Set Grafana data directory permissions
+  file:
+    path: /root/grafana
+    state: directory
+    mode: 0777
+
+- name: Pull Grafana image
+  docker_image:
+    name: grafana/grafana
+
+- name: Run Grafana 
+  docker_container:
+    name: grafana-node
+    image: grafana/grafana
+    state: started
+    network_mode: host
+    volumes:
+      - /root/grafana:/var/lib/grafana

@@ -1,0 +1,3 @@
+---
+napierdalatr_image: "{{groups[\"docker-registry\"][0]}}:5000/napierdalatr"
+metric_storage_addres: "{{groups[\"influxdb\"][0]}}"

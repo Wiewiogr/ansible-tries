@@ -1,0 +1,5 @@
+---
+- hosts: 
+    - napierdalatr
+  roles:
+    - napierdalatr

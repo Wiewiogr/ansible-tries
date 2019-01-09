@@ -1,0 +1,8 @@
+---
+- name: "Kill and Remove {{service}}"
+  docker_container:
+    name: "{{service}}-node"
+    state: absent
+
+- name: "Remove {{service}} directory"
+  file: "path=/root/{{service}} state=absent"

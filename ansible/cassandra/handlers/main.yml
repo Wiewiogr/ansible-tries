@@ -1,0 +1,14 @@
+---
+- name: Restart Cassandra 
+  docker_container:
+    name: cassandra-node
+    image: "{{ cassandra_image }}"
+    state: started
+    restart: true
+    network_mode: host
+    env:
+        CASSANDRA_SEEDS: "{{ groups[\"cassandra-seed\"] | join (\",\") }}"
+    volumes:
+      - /root/cassandra/data:/var/lib/cassandra
+      - /root/cassandra/log:/var/log/cassandra
+      - /root/cassandra/metrics-conf:/usr/share/cassandra/metrics-conf/

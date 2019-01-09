@@ -1,0 +1,15 @@
+---
+- name: Pull Napierdalatr image
+  docker_image:
+    name: "{{ napierdalatr_image }}"
+    pull: true
+    force: true
+
+- name: Run Napierdalatr 
+  docker_container:
+    name: napierdalatr-node
+    image: "{{ napierdalatr_image }}"
+    state: started
+    network_mode: host
+    env:
+      APP_ARGUMENTS: "-Dgraphite.prefix=napierdalatr.{{ansible_eth0.ipv4.address}} -Dgraphite.host={{metric_storage_addres}}"

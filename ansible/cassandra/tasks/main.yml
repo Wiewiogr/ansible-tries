@@ -1,0 +1,35 @@
+---
+- name: Create data directory
+  file: path=/root/cassandra/data state=directory
+
+- name: Create log directory
+  file: path=/root/cassandra/log state=directory
+
+- name: Create metrics configuration directory
+  file: path=/root/cassandra/metrics-conf state=directory
+
+- name: Add metrics configuration
+  template:
+    src: templates/metrics-configuration.yml.j2
+    dest: /root/cassandra/metrics-conf/metrics-configuration.yml
+  notify:
+    - Restart Cassandra
+
+- name: Pull Cassandra image
+  docker_image:
+    name: "{{ cassandra_image }}"
+  notify:
+    - Restart Cassandra
+
+- name: Run Cassandra 
+  docker_container:
+    name: cassandra-node
+    image: "{{ cassandra_image }}"
+    state: started
+    network_mode: host
+    env:
+        CASSANDRA_SEEDS: "{{ groups[\"cassandra-seed\"] | join (\",\") }}"
+    volumes:
+      - /root/cassandra/data:/var/lib/cassandra
+      - /root/cassandra/log:/var/log/cassandra
+      - /root/cassandra/metrics-conf:/usr/share/cassandra/metrics-conf/

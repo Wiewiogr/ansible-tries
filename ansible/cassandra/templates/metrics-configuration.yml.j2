@@ -1,0 +1,13 @@
+graphite:
+-
+  period: 30
+  timeunit: 'SECONDS'
+  prefix: cassandra.{{ ansible_eth0.ipv4.address }}
+  hosts:
+  - host: {{ groups["influxdb"][0] }}
+    port: 2003
+  predicate:
+    color: "white"
+    useQualifiedName: true
+    patterns:
+    - ".*"

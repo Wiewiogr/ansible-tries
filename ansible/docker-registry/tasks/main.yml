@@ -1,0 +1,16 @@
+---
+- name: Create Docker registry data directory
+  file: path=/root/docker-registry state=directory
+
+- name: Pull Docker registry image
+  docker_image:
+    name: registry
+
+- name: Run Docker registry 
+  docker_container:
+    name: registry-node
+    image: registry
+    state: started
+    network_mode: host
+    volumes:
+      - /root/docker-registry:/var/lib/registry

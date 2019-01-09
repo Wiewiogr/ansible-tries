@@ -1,0 +1,29 @@
+---
+- name: Create ssh config directory
+  file: path=/root/.ssh state=directory
+
+- name: Add file with authorized hosts
+  copy: 
+    src: files/authorized_keys 
+    dest: /root/.ssh/
+
+- name: Install docker
+  apt:
+    name: 
+      - docker
+      - docker.io
+    state: present
+
+- name: Add docker configuration
+  template:
+    src: templates/daemon.json.j2
+    dest: /etc/docker/daemon.json
+
+- name: Restart docker
+  service: 
+    name: docker
+    state: restarted
+
+- name: Install docker-py
+  pip:
+    name: docker-py
